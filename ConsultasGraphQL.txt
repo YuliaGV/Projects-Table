@@ -1,0 +1,86 @@
+//User
+
+mutation {
+  registerUser(userInput:{
+    pin: "1020473855"
+    name:"Yuliana"
+    lastName:"Gaviria"
+    email:"yulianagaviria2@gmail.com"
+    password:"yuliana123"
+    confirmPassword:"yuliana123"
+    role:"ADMINISTRADOR"
+  }){
+    name
+  }
+}
+
+
+mutation{
+  updateProfile(idUser:"62c3ac386f22767b77a8adac",name:"Yuliana María", lastName:"Gaviria", email:"yulianagaviria2@gmail.com", password:"yuliana123",confirmPassword:"yuliana123"){
+    name
+  }
+}
+
+
+mutation {
+  approveAccount(idUser: "62c3ad266f22767b77a8adb0", approved: false) {
+    _id
+    name
+    role
+    status
+  }
+}
+
+mutation {
+  login(email:"fulano1985@gmail.com", password:"fulano123"){
+    token
+  }
+}
+
+
+mutation {
+  login(email:"yulianagaviria2@gmail.com", password:"yuliana123"){
+    token
+  }
+}
+
+
+//Project
+
+mutation {
+  registerProject(projectInput:{
+    name:"Blog personal"
+    budget: 50000
+    shortDescription:"Landing page con HTML y CSS"
+    objectives: [{
+      description:"Reconocer elementos básicos de desarrollo web"
+      type:"GENERAL"
+    }]
+  }){
+    name
+  }
+}
+
+
+
+
+
+mutation {
+  approveProject(idProject: "62c8f69a3e4e19225ed379eb") {
+    name
+  }
+}
+
+
+
+query{
+  getProjects {
+    name
+    leader {
+      _id
+      name
+    }
+  }
+}
+
+
