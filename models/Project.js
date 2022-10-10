@@ -42,7 +42,7 @@ const projectSchema = new Schema({
     },
     phase: {
         type: String,
-        enum: ['INICIADO', 'EN_DESARROLLO', 'TERMINADO', 'NULO'],
+        enum: ['INICIADO','TERMINADO', 'NULO'],
         default: 'NULO',
     },
     leader: {

@@ -6,6 +6,7 @@ export const GET_PROJECTS = gql`
   query {
 
     getProjects {
+        _id
         name 
         budget
         shortDescription 
@@ -13,6 +14,10 @@ export const GET_PROJECTS = gql`
         endDate
         status 
         phase
+        leader{
+          name
+          lastName
+        }
     }
 
   }

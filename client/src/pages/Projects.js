@@ -5,12 +5,8 @@ import { GET_PROJECTS } from '../util/projects-graphql';
 
 import MenuBar from '../components/MenuBar';
 import Container from '@mui/material/Container';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Masonry from '@mui/lab/Masonry';
+import Project from '../components/Project';
 
 
 function Projects() {
@@ -22,44 +18,35 @@ function Projects() {
   
   useEffect(() => {
         if (data) {
-            setProjects(data.getProjects);
+            setProjects(data.getProjects.filter(elem => elem.phase==='INICIADO')); //It shows only projects 
         }
-  } , [data, projects]);
+  } , [data]);
     
 
   return (
     <div>
        <MenuBar currentElement = 'Proyectos'/>
 
-       <Container maxWidth="lg" style={{ margin: '2rem auto', textAlign: 'center' }}>
-          <h1>Lista de proyectos</h1>
-          {loading ? (
+       <Container maxWidth="lg" style={{ margin: '2rem auto', textAlign: 'center' }}> 
 
-          <h2>Cargando proyectos...</h2>
-        ) : (
-          <Masonry columns={4} spacing={2}>
-            {projects &&
-              projects.map((project) => (
-                <Card>
-                    <CardContent>
-                      <Typography variant="h5" component="div">
-                        {project.name}
-                      </Typography>
-                      <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        {project.shortDescription }
-                      </Typography>
-                      <Typography variant="body2">
-                        Inserte descripción
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small">Ver detalles</Button>
-                    </CardActions>
-                </Card>
-              ))}
+          <h1>Proyectos activos</h1>
+
+          <div style={{ margin: '2rem auto'}}>
+
+          {loading && ( <h2>Cargando proyectos...</h2>)}
+         
+          {!error && projects.length > 0 ? (
+          <Masonry columns={{ xs: 1, sm: 2, md:4, lg:4 }} spacing={2} style={{ margin: '2rem auto'}}>
+            {projects.map((project) => (
+               <Project project={project} key={project._id}/>
+            ))}
           </Masonry>
-        )}
+         
+        ) : (<p>No hay proyectos en este momento</p>)}
+        
+        {error && (<p>Ups! Error al intentar cargar los proyectos</p>)}
 
+        </div>
 
        </Container>
       
