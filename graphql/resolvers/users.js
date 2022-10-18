@@ -121,6 +121,16 @@ module.exports = {
                 throw new UserInputError('Usuario no encontrado', {errors})
             }
 
+            if(user.status === 'PENDIENTE'){
+                errors.general = 'Usuario pendiente por autorización';
+                throw new UserInputError('Usuario pendiente por autorización', {errors})
+            }
+
+            if(user.status === 'NO_AUTORIZADO'){
+                errors.general = 'Lo sentimos, tu cuenta no está autorizada';
+                throw new UserInputError('Lo sentimos, tu cuenta no está autorizada', {errors})
+            }
+
             const match = await bcrypt.compare(password, user.password);
 
             if(!match){

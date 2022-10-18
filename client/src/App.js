@@ -7,6 +7,8 @@ import {
 
 import './App.css';
 
+import { AuthProvider } from './context/auth';
+
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -17,14 +19,16 @@ import Projects from './pages/Projects'
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/register" element={<Register/>} />
-        <Route path="/projects" element={<Projects/>} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/register" element={<Register/>} />
+          <Route path="/projects" element={<Projects/>} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

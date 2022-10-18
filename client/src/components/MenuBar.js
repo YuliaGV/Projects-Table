@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, {useState, useContext} from 'react';
+
 import {Link} from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -15,24 +16,68 @@ import MenuItem from '@mui/material/MenuItem';
 
 import Logo from '../img/Logo.png'
 
-
-const pages = [    
-    { text: 'Home', href: '/' },
-    { text: 'Proyectos', href: '/projects' }
-  ]
-
-const settings = [
-    { text: 'Login', href: '/login' },
-    { text: 'Register', href: '/register' }
-]
+import { AuthContext } from '../context/auth';
 
 
 
 function MenuBar({ currentElement}) {
 
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const { user, logout } = useContext(AuthContext);
 
+
+    let pages = [];
+    let settings = [];
+
+    pages = [    
+        { text: 'Home', href: '/' },
+        { text: 'Proyectos', href: '/projects' }
+      ]
+    
+    settings = [
+        { text: 'Login', href: '/login' },
+        { text: 'Register', href: '/register' }
+    ]
+
+    if(user){
+
+        if(user.role === 'ADMINISTRADOR'){
+
+            pages = [    
+                { text: 'Home', href: '/' },
+                { text: 'Proyectos actuales', href: '/projects' },
+                { text: 'Administrar proyectos', href: '/adminprojects' },
+                { text: 'Usuarios', href: '/users' }
+
+            ]
+            
+        }else if(user.role === 'LIDER'){
+
+            pages = [    
+                { text: 'Home', href: '/' },
+                { text: 'Proyectos actuales', href: '/projects' },
+                { text: 'Mis proyectos', href: '/myprojects_leader' },
+                { text: 'Inscripciones', href: '/myinscriptions_leader'}
+            ]
+    
+        }else if(user.role === 'ESTUDIANTE'){
+            pages = [    
+                { text: 'Home', href: '/' },
+                { text: 'Proyectos actuales', href: '/projects' },
+                { text: 'Mis proyectos', href: '/myprojects_student' },
+                { text: 'Inscripciones', href: '/myinscriptions_student'}
+            ]
+
+        }
+
+        settings = [
+            { text: 'Mi perfil', href: '/profile' },
+            { text: 'Cerrar sesión', href: '/logout' }
+        ]
+
+    }
+
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
 
   
     const handleOpenNavMenu = (event) => {
@@ -50,8 +95,6 @@ function MenuBar({ currentElement}) {
       setAnchorElUser(null);
     };
   
-
-
     return (
         <AppBar position="static" style={{ background: '#132f4c' }}>
             <Container maxWidth="xl">
@@ -158,16 +201,12 @@ function MenuBar({ currentElement}) {
                     </Link>
                     ))}
 
-
-
                     </Menu>
                 </Box>
                 </Toolbar>
             </Container>
         </AppBar>
-    
     )
-
 }
 
 export default MenuBar
